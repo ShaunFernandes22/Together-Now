@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:together_now_ipd/Models/widgets/search_bar.dart';
 
 class Person {
   final String name;
@@ -45,16 +46,21 @@ class _SearchNavigateState extends State<SearchNavigate> {
         centerTitle: true,
         title: const Text("Volunteers"),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Number of columns
-          crossAxisSpacing: 8.0, // Spacing between columns
-          mainAxisSpacing: 8.0, // Spacing between rows
-        ),
-        itemCount: people.length,
-        itemBuilder: (context, index) {
-          return PersonCard(person: people[index]);
-        },
+      body: Column(
+        children: [
+          // const CustomSearchBar(),
+          GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // Number of columns
+              crossAxisSpacing: 8.0, // Spacing between columns
+              mainAxisSpacing: 8.0, // Spacing between rows
+            ),
+            itemCount: people.length,
+            itemBuilder: (context, index) {
+              return PersonCard(person: people[index]);
+            },
+          ),
+        ],
       ),
     );
   }

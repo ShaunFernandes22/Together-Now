@@ -8,6 +8,7 @@ import 'package:together_now_ipd/Screens/search_tab.dart';
 import 'package:together_now_ipd/Screens/warning.dart';
 import 'package:together_now_ipd/Screens/history.dart';
 import 'package:together_now_ipd/Screens/profile.dart';
+import 'package:together_now_ipd/Screens/chat.dart';
 // import 'package:together_now_ipd/Screens/warning.dart';
 
 class UserPage extends StatefulWidget {
@@ -81,7 +82,10 @@ class _UserPageState extends State<UserPage> {
       // ),
       body: screens[_currentIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ChatPage()));
+        },
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

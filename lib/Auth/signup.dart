@@ -16,6 +16,7 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   void createAccount() async {
     String email = emailController.text.trim();
@@ -52,31 +53,6 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
-  // void showErrorDialog(String errorMessage) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: const Text('Error'),
-  //       content: Text(errorMessage),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.pop(context);
-  //           },
-  //           child: const Text('OK'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // void showAccountCreatedSnackbar() {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(
-  //         content: Text('Account created!'), backgroundColor: Colors.green),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,9 +83,9 @@ class _SignupPageState extends State<SignupPage> {
               FadeInUp(
                 duration: const Duration(milliseconds: 1000),
                 child: Image.asset(
-                  'assets/splash_icon.png', // Replace with the path to your logo
-                  width: 180, // Adjust the width as needed
-                  height: 180, // Adjust the height as needed
+                  'assets/splash_icon.png',
+                  width: 120,
+                  height: 120,
                 ),
               ),
               Column(
@@ -137,6 +113,10 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Column(
                 children: <Widget>[
+                  FadeInUp(
+                      duration: const Duration(milliseconds: 1200),
+                      child: makeInput(
+                          label: "Full Name", controller: nameController)),
                   FadeInUp(
                       duration: const Duration(milliseconds: 1200),
                       child: makeInput(
