@@ -41,7 +41,7 @@ class _SignupPageState extends State<SignupPage> {
           if (context.mounted) {
             Navigator.popUntil(context, (route) => route.isFirst);
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
+                context, MaterialPageRoute(builder: (context) => const LoginPage()));
           }
         }
       } on FirebaseAuthException catch (ex) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:together_now_ipd/Models/widgets/app_bar.dart';
-import 'package:together_now_ipd/Models/widgets/search_bar.dart';
+// import 'package:together_now_ipd/Models/widgets/search_bar.dart';
 import 'package:together_now_ipd/Models/schedule_status.dart';
 
 class Home extends StatefulWidget {
@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CustomSearchBar(),
+              // CustomSearchBar(),
               SizedBox(
                 height: 200,
               ),

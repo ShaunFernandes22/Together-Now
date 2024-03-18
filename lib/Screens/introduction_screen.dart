@@ -40,7 +40,7 @@ class IntroductionScreens extends StatelessWidget {
               title: '',
               body:
                   'We cherish your moments, the laughter in your stories and the unity of our large family.',
-              image: buildImage("assets/Onboarding3.png", width),
+              image: buildImage("assets/Onboarding1.png", width),
               //getPageDecoration, a method to customise the page style
               decoration: getPageDecoration(),
             ),

@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           if (context.mounted) {
             Navigator.popUntil(context, (route) => route.isFirst);
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+                context, MaterialPageRoute(builder: (context) => const HomePage()));
           }
         }
       } on FirebaseException catch (ex) {
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height - 100,
           width: double.infinity,
           child: Column(

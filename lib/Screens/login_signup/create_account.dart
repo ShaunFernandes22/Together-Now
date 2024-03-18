@@ -16,8 +16,8 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: SafeArea(
           child: Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
@@ -73,9 +73,9 @@ class _CreateAccountState extends State<CreateAccount> {
                                                   .authStateChanges(),
                                               builder: (context, snapshot) {
                                                 if (snapshot.hasData) {
-                                                  return HomePage();
+                                                  return const HomePage();
                                                 } else {
-                                                  return LoginPage();
+                                                  return const LoginPage();
                                                 }
                                               }),
                                         )));
