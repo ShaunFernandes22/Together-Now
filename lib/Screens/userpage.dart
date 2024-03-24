@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:together_now_ipd/Models/schedule_status.dart';
-// import 'package:together_now_ipd/Models/widgets/bottom_navigation.dart';
+
 import 'package:together_now_ipd/Models/widgets/app_bar.dart';
+import 'package:together_now_ipd/Models/widgets/expandable_fab.dart';
 import 'package:together_now_ipd/Screens/home.dart';
 import 'package:together_now_ipd/Screens/search_tab.dart';
 import 'package:together_now_ipd/Screens/warning.dart';
 import 'package:together_now_ipd/Screens/history.dart';
 import 'package:together_now_ipd/Screens/profile.dart';
 import 'package:together_now_ipd/Screens/chat.dart';
-// import 'package:together_now_ipd/Screens/warning.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -21,14 +20,7 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   int _currentIndex = 0;
   final user = FirebaseAuth.instance.currentUser;
-  // final screens = const [Home(), SearchNavigate(), Warning()];
-  final screens = const [
-    Home(),
-    SearchNavigate(),
-    Warning(),
-    History(),
-    Profile()
-  ];
+  final screens = [Home(), SearchNavigate(), Warning(), History(), Profile()];
 
   @override
   Widget build(BuildContext context) {
@@ -36,57 +28,26 @@ class _UserPageState extends State<UserPage> {
         child: Scaffold(
       backgroundColor: Colors.white,
       drawer: const NavDrawer(),
-      // appBar: AppBar(
-      //   // title: const Text('My App'),
-      //   leading: const CustomAppBar(),
-      //   // actions: [
-      //   //   IconButton(
-      //   //     icon: const Icon(Icons.menu),
-      //   //     onPressed: () {
-      //   //       // Handle menu icon press
-      //   //     },
-      //   //   ),
-      //   // ],
-      // ),
-      // appBar: const CustomAppBar(),
-      // body: Column(
-      //   children: [
-      //     const CustomAppBar(),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Padding(
-      //           padding: const EdgeInsets.all(15.0),
-      //           child: TextField(
-      //             decoration: InputDecoration(
-      //               hintText: ' Search...',
-      //               border: OutlineInputBorder(
-      //                 borderRadius: BorderRadius.circular(30.0),
-      //               ),
-      //               prefixIcon: const Icon(Icons.search),
-      //             ),
-      //           ),
-      //         ),
-      //         const SizedBox(
-      //           height: 200,
-      //         ),
-      //         const ScheduleStatus(
-      //             // hasAppointments: false, //
-      //             // onBookAppointment: () {
-      //             //   // Handle booking appointment
-      //             // },
-      //             ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
       body: screens[_currentIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ChatPage()));
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: MyExpandableFab(
+        distance: 112,
+        children: [
+          ActionButton(
+            // onPressed: () => _showAction(context, 0),
+            onPressed: () {},
+            icon: const Icon(Icons.format_size),
+          ),
+          ActionButton(
+            // onPressed: () => _showAction(context, 1),
+            onPressed: () {},
+            icon: const Icon(Icons.insert_photo),
+          ),
+          ActionButton(
+            // onPressed: () => _showAction(context, 2),
+            onPressed: () {},
+            icon: const Icon(Icons.videocam),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavigationBar(

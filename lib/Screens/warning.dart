@@ -1,15 +1,17 @@
+// import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // Import any other necessary Firebase packages, such as firebase_auth if needed.
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(() as Widget);
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(() as Widget);
+// }
 
 class Warning extends StatelessWidget {
   Warning({super.key});
@@ -25,7 +27,7 @@ class Warning extends StatelessWidget {
     );
   }
 
-  void showConfirmationDialog() {
+  void showConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -36,16 +38,16 @@ class Warning extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                handleAlert();
+                handleAlert(context);
               },
               child: const Text("Yes"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                setState(() {
-                  isSOSPressed = false;
-                });
+                // setState(() {
+                //   isSOSPressed = false;
+                // });
               },
               child: const Text("No"),
             ),
@@ -55,45 +57,25 @@ class Warning extends StatelessWidget {
     );
   }
 
-  void handleAlert() {
-    // Your logic to send a signal to the backend
+  void handleAlert(BuildContext context) {
     // print("Sending alert to backend");
-    sendPostRequest(context);
+    // sendPostRequest(context);
   }
 
-  final apiUrl = Uri.parse(
-      'https://5bb8-2401-4900-1c94-6969-cc28-3204-a9b-f0f4.ngrok-free.app/send-sms/');
-  Future<void> sendPostRequest(BuildContext context) async {
-    var response = await http.post(apiUrl,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"number": "+919819971058"}));}
+  // final apiUrl = Uri.parse(
+  //     'ngrok');
 
-    // convert json obj
-    // return {"status": "Message sent successfully", "message_id": message.sid}
-
-    if (response.statusCode == 201) {
-      // Scaffold.of(context).showSnackBar(SnackBar(
-      //   content: Text("Post created successfully!"),
-      // ));
-      print("Success");
-    } else {
-      // Scaffold.of(context).showSnackBar(SnackBar(
-      //   content: Text("Failed to create post!"),
-      // ));
-      print("Fail");
-    }
-    // (response);
-  }
-  // if (response.statusCode == 201) {
-  //   Scaffold.of(context).showSnackBar(SnackBar(
-  //     content: Text("Post created successfully!"),
-  //   ));
-  // } else {
-  //   Scaffold.of(context).showSnackBar(SnackBar(
-  //     content: Text("Failed to create post!"),
-  //   ));
+  // Future<void> sendPostRequest(BuildContext context) async {
+  //   var response = await http.post(apiUrl,
+  //       headers: {"Content-Type": "application/json"},
+  //       body: jsonEncode({"number": "varun's no"}));
+  //   // print(response.status);
   // }
 
+  // convert json obj
+  // return {"status": "Message sent successfully", "message_id": message.sid}
+  // (response);
+}
 
 class SafetyPage extends StatefulWidget {
   const SafetyPage({super.key});
@@ -122,7 +104,7 @@ class _SafetyPageState extends State<SafetyPage> {
 
     // Now, you can call your API to send an SMS to the phoneNumber
     // Replace this print statement with your API call
-    print('An SMS will be sent to $phoneNumber');
+    // print('An SMS will be sent to $phoneNumber');
 
     setState(() {
       _isRegistering = false;
@@ -139,17 +121,20 @@ class _SafetyPageState extends State<SafetyPage> {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(), backgroundColor: Colors.grey,
+                shape: const CircleBorder(),
+                backgroundColor: Colors.grey,
                 padding: const EdgeInsets.all(80),
               ),
-              child: const Text('SOS', style: TextStyle(fontSize: 24, color: Colors.white)),
+              child: const Text('SOS',
+                  style: TextStyle(fontSize: 24, color: Colors.white)),
               onPressed: () {
                 // Your SOS functionality here
               },
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.black, backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
               ),
               child: const Text('Inform Kin'),
               onPressed: () {
