@@ -49,16 +49,18 @@ class _SearchNavigateState extends State<SearchNavigate> {
       body: Column(
         children: [
           // const CustomSearchBar(),
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Number of columns
-              crossAxisSpacing: 8.0, // Spacing between columns
-              mainAxisSpacing: 8.0, // Spacing between rows
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of columns
+                crossAxisSpacing: 8.0, // Spacing between columns
+                mainAxisSpacing: 8.0, // Spacing between rows
+              ),
+              itemCount: people.length,
+              itemBuilder: (context, index) {
+                return PersonCard(person: people[index]);
+              },
             ),
-            itemCount: people.length,
-            itemBuilder: (context, index) {
-              return PersonCard(person: people[index]);
-            },
           ),
         ],
       ),

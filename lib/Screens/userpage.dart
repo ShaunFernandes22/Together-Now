@@ -8,7 +8,7 @@ import 'package:together_now_ipd/Screens/search_tab.dart';
 import 'package:together_now_ipd/Screens/warning.dart';
 import 'package:together_now_ipd/Screens/history.dart';
 import 'package:together_now_ipd/Screens/profile.dart';
-import 'package:together_now_ipd/Screens/chat.dart';
+import 'package:together_now_ipd/Screens/chat/chat.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
