@@ -88,6 +88,7 @@ class SafetyPage extends StatefulWidget {
 class _SafetyPageState extends State<SafetyPage> {
   final TextEditingController _phoneController = TextEditingController();
   bool _isRegistering = false;
+  Color backgt = Colors.grey;
 
   void registerPhoneNumber() async {
     setState(() {
@@ -122,13 +123,16 @@ class _SafetyPageState extends State<SafetyPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
-                backgroundColor: Colors.grey,
+                backgroundColor: backgt,
                 padding: const EdgeInsets.all(80),
               ),
               child: const Text('SOS',
                   style: TextStyle(fontSize: 24, color: Colors.white)),
               onPressed: () {
                 // Your SOS functionality here
+                setState(() {
+                  backgt = Colors.red;
+                });
               },
             ),
             ElevatedButton(

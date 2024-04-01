@@ -89,7 +89,7 @@ class AppointmentCard extends StatelessWidget {
                   SizedBox(width: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.green,
                     ),
                     onPressed: onCompletePressed,
                     child: Text('Completed',

@@ -6,22 +6,37 @@ import 'package:together_now_ipd/Auth/login.dart';
 import 'package:together_now_ipd/Auth/signup.dart';
 
 class CreateAccount extends StatefulWidget {
-  const CreateAccount({super.key});
+  // const CreateAccount({super.key});
+  final String choice;
+  const CreateAccount({required this.choice, Key? key}) : super(key: key);
 
   @override
-  State<CreateAccount> createState() => _CreateAccountState();
+  State<CreateAccount> createState() => _CreateAccountState(choice: choice);
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  final String choice;
+  _CreateAccountState({required this.choice});
+
   @override
   Widget build(BuildContext context) {
+    String welcomeMessage = '';
+
+    // Determine the welcome message based on the value of choice
+    if (choice == 'volunteer') {
+      welcomeMessage = 'Welcome volunteers';
+    } else if (choice == 'seeker') {
+      welcomeMessage = 'Welcome users.';
+    }
+    print(welcomeMessage);
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 100),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,36 +46,40 @@ class _CreateAccountState extends State<CreateAccount> {
                     FadeInUp(
                         duration: const Duration(milliseconds: 1000),
                         child: const Text(
-                          "Welcome",
+                          "Together Now",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30),
                         )),
                     const SizedBox(
                       height: 20,
                     ),
                     FadeInUp(
-                        duration: const Duration(milliseconds: 1200),
+                        duration: const Duration(milliseconds: 1000),
                         child: Text(
-                          "Automatic identity verification which enables you to verify your identity",
+                          welcomeMessage,
                           textAlign: TextAlign.center,
-                          style:
-                              TextStyle(color: Colors.grey[700], fontSize: 15),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 15),
                         )),
                   ],
                 ),
                 FadeInUp(
                     duration: const Duration(milliseconds: 1400),
                     child: Container(
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: 300,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage('assets/splash_icon.png'))),
+                              image: AssetImage('assets/HelpSenior.png'))),
                     )),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     FadeInUp(
                         duration: const Duration(milliseconds: 1500),
                         child: MaterialButton(
+                          color: Colors.yellow,
                           minWidth: double.infinity,
                           height: 60,
                           onPressed: () {

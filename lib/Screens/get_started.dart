@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:together_now_ipd/Models/user_state.dart';
 import 'package:together_now_ipd/Screens/login_signup/create_account.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class GetStarted extends StatelessWidget {
+class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
+
+  @override
+  State<GetStarted> createState() => _GetStartedState();
+}
+
+class _GetStartedState extends State<GetStarted> {
+  late SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +37,8 @@ class GetStarted extends StatelessWidget {
                 scale: 1.5,
               ),
               const ChoiceButton(
+                choice: 'volunteer',
+                index: 0,
                 buttonText: 'People who want to help',
                 horizontalPadding: 11.0,
               ),
@@ -29,76 +46,129 @@ class GetStarted extends StatelessWidget {
                 height: 20,
               ),
               const ChoiceButton(
+                choice: 'seeker',
+                index: 1,
                 buttonText: 'People who need help',
               ),
               const SizedBox(
                 height: 60,
               ),
-              const StartedButton(),
+              StartedButton(),
             ],
           )),
         ));
   }
 }
 
-class ChoiceButton extends StatefulWidget {
+class ChoiceButton extends StatelessWidget {
   final String buttonText;
+  final String choice;
+  final int index;
   final double horizontalPadding;
-  const ChoiceButton(
-      {super.key, required this.buttonText, this.horizontalPadding = 22.0});
-
-  @override
-  State<ChoiceButton> createState() => _ChoiceButtonState();
-}
-
-class _ChoiceButtonState extends State<ChoiceButton> {
-  bool isButtonPressed = false;
+  const ChoiceButton({
+    Key? key,
+    required this.buttonText,
+    required this.choice,
+    required this.index,
+    this.horizontalPadding = 22.0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final choiceStateProvider = Provider.of<ChoiceStateProvider>(context);
+    bool isSelected = index == choiceStateProvider.selectedIndex;
+
     return TextButton(
       onPressed: () {
-        setState(() {
-          isButtonPressed = !isButtonPressed;
-        });
+        choiceStateProvider.selectButton(index, choice);
       },
       style: TextButton.styleFrom(
-        backgroundColor:
-            isButtonPressed ? Palette.borderColor : Colors.transparent,
+        backgroundColor: isSelected ? Palette.borderColor : Colors.white,
         padding: EdgeInsets.symmetric(
-            horizontal: widget.horizontalPadding, vertical: 17.0),
+          horizontal: horizontalPadding,
+          vertical: 17.0,
+        ),
         shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Palette.borderColor, width: 2),
+          side: const BorderSide(
+            color: Palette.borderColor,
+            width: 2,
+          ),
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
       child: Text(
-        widget.buttonText,
-        style: const TextStyle(color: Colors.white, fontSize: 20),
+        buttonText,
+        style: TextStyle(
+          color: isSelected ? Colors.white : Colors.black,
+          fontSize: 20,
+        ),
       ),
     );
   }
 }
 
-class StartedButton extends StatelessWidget {
-  const StartedButton({super.key});
+class StartedButton extends StatefulWidget {
+  const StartedButton({Key? key}) : super(key: key);
+
+  @override
+  _StartedButtonState createState() => _StartedButtonState();
+}
+
+class _StartedButtonState extends State<StartedButton> {
+  bool isPressed = false;
+
+  Future<void> _saveChoice(String choice) async {
+    // Save choice to SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userChoice', choice);
+  }
+
+  @override
+  void dispose() {
+    // Reset the isPressed state to false when the widget is disposed
+    super.initState();
+    isPressed = false;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    String selectedChoice =
+        Provider.of<ChoiceStateProvider>(context).selectedChoice;
+
     return ElevatedButton(
-      onPressed: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const CreateAccount())),
+      onPressed: () => {
+        if (selectedChoice != '')
+          {
+            setState(() {
+              isPressed = true;
+            }),
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CreateAccount(choice: selectedChoice))).then((_) {
+              // This function will be called when navigating back from the CreateAccount screen
+              setState(() {
+                isPressed = false; // Reset the isPressed state to false
+              });
+            }),
+            _saveChoice(selectedChoice),
+          },
+      },
       style: ElevatedButton.styleFrom(
           fixedSize: const Size(300, 55),
-          backgroundColor: Colors.transparent,
+          backgroundColor:
+              isPressed ? Palette.startBorderColor : Colors.transparent,
           shape: RoundedRectangleBorder(
               side: const BorderSide(color: Palette.startBorderColor, width: 2),
               borderRadius: BorderRadius.circular(10))),
-      child: const Text(
+      child: Text(
         'Get Started',
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 22,
+          color: isPressed ? Colors.black : Colors.white,
         ),
       ),
     );

@@ -1,140 +1,146 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:together_now_ipd/Screens/chat/chat_bubble.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+class TextInput extends StatefulWidget {
+  const TextInput({Key? key, required this.userId}) : super(key: key);
+  final String userId;
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<TextInput> createState() => _TextInputState();
 }
 
-class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _messageController = TextEditingController();
-  final List<String> _messages = [];
+class _TextInputState extends State<TextInput> {
+  // double deviceHeight = Constants().deviceHeight,
+  // deviceWidth = Constants().deviceWidth;
+  double deviceHeight = 896, deviceWidth = 414;
+  final _controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  List<String> lst = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chatbot'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: _messages.length,
-                // itemBuilder: (context, index) {
-                //   return ListTile(
-                //     title: Text(_messages[index]),
-                //   );
-                // },
-                itemBuilder: (context, index) {
-                  // return buildMessageBubble(_messages[index]);
-                },
-              ),
-            ),
-            const Divider(),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: const InputDecoration(
-                      hintText: 'Type a message...',
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: Text(
+            // AppLocalizations.of(context)!.resolveYourQueries,
+            "Hi",
+            style: TextStyle(
+                fontFamily: "productSansReg",
+                color: Colors.cyan[500],
+                fontWeight: FontWeight.w700),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          iconTheme: IconThemeData(color: Colors.cyan[500]),
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.grey[900]!,
+                  Colors.black,
+                  Colors.grey[900]!,
+                ]),
+          ),
+          child: Form(
+              key: _formKey,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    if (lst.isEmpty)
+                      SizedBox(
+                        height: height * (40 / deviceHeight),
+                      )
+                    else
+                      SizedBox(
+                        height: height * (60 / deviceHeight),
+                      ),
+                    if (lst.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: lst.length,
+                          itemBuilder: (context, index) {
+                            return index % 2 == 0
+                                ? ChatBubble(
+                                    text: lst[index], isCurrentUser: true)
+                                : ChatBubble(
+                                    text: lst[index], isCurrentUser: false);
+                          },
+                        ),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SizedBox(
+                          child: TextFormField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            filled: true,
+                            hintText: "AppLocalizations.of(context)!.enterText",
+                            hintStyle: TextStyle(
+                                fontSize: 17.5,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.cyan[500],
+                                fontFamily: "productSansReg"),
+                            suffix: InkWell(
+                              onTap: () async {
+                                String text = _controller.text.trim();
+                                lst.add(text);
+                                setState(() {});
+                                _controller.clear();
+                                var res =
+                                    await chatWithBot(widget.userId, text);
+                                lst.add(res.toString());
+                                setState(() {});
+                              },
+                              child: Icon(
+                                Icons.send_rounded,
+                                size: 25,
+                                color: Colors.cyan[500],
+                              ),
+                            ),
+                            fillColor: Colors.white),
+                      )),
                     ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () {
-                    sendMessage();
-                  },
-                ),
-              ],
-            ),
-          ],
+                  ])),
         ),
       ),
     );
   }
 
-  void sendMessage() async {
-    String message = _messageController.text.trim();
-    if (message.isNotEmpty) {
-      // Send message to the chatbot backend
-      String response = await sendMessageToChatbot(message);
-
-      // Update the UI
-      setState(() {
-        _messages.add('User: $message');
-        _messages.add('Chatbot: $response');
-        _messageController.clear();
-      });
-    }
-  }
-
-  Widget buildMessageBubble(Message message) {
-    final isUserMessage = message.sender == MessageSender.user;
-    final alignment =
-        isUserMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-    final bubbleColor = isUserMessage ? Colors.blue : Colors.grey.shade300;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: alignment,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: bubbleColor,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Text(
-              message.text,
-              style:
-                  TextStyle(color: isUserMessage ? Colors.white : Colors.black),
-            ),
-          ),
-        ],
-      ),
+  Future<String> chatWithBot(String? userId, String? query) async {
+    var res = await http.post(
+      Uri.parse(''),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "user_id": "$userId",
+        "query": "$query",
+        "topic": "Learning",
+        "chat_id": 1
+      }),
     );
-  }
-
-  Future<String> sendMessageToChatbot(String message) async {
-    try {
-      // Replace this URL with your actual chatbot API endpoint
-      final url = Uri.parse('https://your-chatbot-api-url.com/send-message');
-      final response = await http.post(
-        url,
-        body: jsonEncode({'message': message}),
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseBody = jsonDecode(response.body);
-        return responseBody['response'];
-      } else {
-        return 'Failed to get a response from the chatbot.';
-      }
-    } catch (e) {
-      return 'Error sending message to the chatbot: $e';
+    debugPrint(res.body);
+    Map<String, dynamic> data = jsonDecode(res.body);
+    if (kDebugMode) {
+      debugPrint(res.body);
+      print(data);
     }
+    return data["response"];
   }
-}
-
-enum MessageSender {
-  user,
-  chatbot,
-}
-
-class Message {
-  final MessageSender sender;
-  final String text;
-
-  Message({required this.sender, required this.text});
 }

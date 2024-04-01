@@ -19,8 +19,8 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
 
   List<DateTime> _getWeekDates(DateTime selectedDate) {
     List<DateTime> weekDates = [];
-    DateTime firstDayOfWeek =
-        selectedDate.subtract(Duration(days: selectedDate.weekday - 1));
+    DateTime today = DateTime.now();
+    DateTime firstDayOfWeek = today;
     for (int i = 0; i < 7; i++) {
       weekDates.add(firstDayOfWeek.add(Duration(days: i)));
     }
@@ -125,6 +125,18 @@ class _BookingPageState extends State<BookingPage> {
           SliverToBoxAdapter(
             child: Column(
               children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(top: 60.0),
+                  child: Center(
+                    child: Text(
+                      'Select Consultation Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
                 _weeklyDatePicker(),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
@@ -141,45 +153,46 @@ class _BookingPageState extends State<BookingPage> {
               ],
             ),
           ),
-          SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return InkWell(
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: _currentIndex == index
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(15),
-                      color: _currentIndex == index ? Colors.blue : null,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: _currentIndex == index ? Colors.white : null,
-                      ),
-                    ),
-                  ),
-                );
-              },
-              childCount: 8,
-            ),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: 1.5,
-            ),
-          ),
+          // SliverGrid(
+          //   delegate: SliverChildBuilderDelegate(
+          //     (context, index) {
+          //       return InkWell(
+          //         splashColor: Colors.transparent,
+          //         onTap: () {
+          //           setState(() {
+          //             _currentIndex = index;
+          //           });
+          //         },
+          //         child: Container(
+          //           margin: const EdgeInsets.all(5),
+          //           decoration: BoxDecoration(
+          //             border: Border.all(
+          //               color: _currentIndex == index
+          //                   ? Colors.white
+          //                   : Colors.black,
+          //             ),
+          //             borderRadius: BorderRadius.circular(15),
+          //             color: _currentIndex == index ? Colors.blue : null,
+          //           ),
+          //           alignment: Alignment.center,
+          //           child: Text(
+          //             '${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}',
+          //             style: TextStyle(
+          //               fontWeight: FontWeight.bold,
+          //               color: _currentIndex == index ? Colors.white : null,
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //     childCount: 8,
+          //   ),
+          //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //     crossAxisCount: 4,
+          //     childAspectRatio: 1.5,
+          //   ),
+          // ),
+          _timeSlots(),
         ],
       ),
     );
@@ -189,6 +202,46 @@ class _BookingPageState extends State<BookingPage> {
     return Container(
       padding: const EdgeInsets.all(10),
       child: WeeklyDatePicker(),
+    );
+  }
+
+  Widget _timeSlots() {
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return InkWell(
+            splashColor: Colors.transparent,
+            onTap: () {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            child: Container(
+              margin: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: _currentIndex == index ? Colors.white : Colors.black,
+                ),
+                borderRadius: BorderRadius.circular(15),
+                color: _currentIndex == index ? Colors.blue : null,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                '${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: _currentIndex == index ? Colors.white : null,
+                ),
+              ),
+            ),
+          );
+        },
+        childCount: 8,
+      ),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        childAspectRatio: 1.5,
+      ),
     );
   }
 }

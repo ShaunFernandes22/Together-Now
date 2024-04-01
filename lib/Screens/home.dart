@@ -32,7 +32,10 @@ class _HomeState extends State<Home> {
               //     //   // Handle booking appointment
               //     // },
               //     ),
-              Text("Your Appointments"),
+              Text(
+                "Your Appointments",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
               AppointmentCard(
                   doctorName: "Jon Snow",
                   category: "Cooking",
@@ -40,7 +43,7 @@ class _HomeState extends State<Home> {
                   day: "Wed",
                   date: "26 Mar",
                   time: "5:00 pm",
-                  color: Colors.grey,
+                  color: Color.fromARGB(255, 160, 208, 233)!,
                   onCancelPressed: () {},
                   onCompletePressed: () {}),
               Center(
