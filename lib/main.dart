@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'package:together_now_ipd/Screens/introduction_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:together_now_ipd/Models/user_state.dart';
 import 'package:together_now_ipd/homepage.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -20,14 +22,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Together Now',
-      // theme: ThemeData.dark().copyWith(
-      //     // primaryColor: Colors.blueGrey[900],
-      //     // scaffoldBackgroundColor: Colors.blueGrey[900],
-      //     ),
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ChoiceStateProvider()),
+      ],
+      child: const MaterialApp(
+        title: 'Together Now',
+        // theme: ThemeData.dark().copyWith(
+        //     // primaryColor: Colors.blueGrey[900],
+        //     // scaffoldBackgroundColor: Colors.blueGrey[900],
+        //     ),
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
+      ),
     );
   }
 }

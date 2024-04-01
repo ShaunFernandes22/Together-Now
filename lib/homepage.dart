@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:together_now_ipd/Auth/new.dart';
 import 'package:together_now_ipd/Screens/introduction_screen.dart';
 // import 'package:together_now_ipd/Auth/login.dart';
 import 'package:together_now_ipd/Screens/userpage.dart';

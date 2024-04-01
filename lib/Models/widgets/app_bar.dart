@@ -49,6 +49,7 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.black,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -71,7 +72,10 @@ class NavDrawer extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   leading: const Icon(Icons.notifications),
-                  title: const Text('Notifications'),
+                  title: const Text(
+                    'Notifications',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onTap: () {
                     // Handle notifications option
                     Navigator.of(context).push(MaterialPageRoute(
@@ -82,7 +86,10 @@ class NavDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
-                  title: const Text('Sign Out'),
+                  title: const Text(
+                    'Sign Out',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onTap: () {
                     // Handle sign out option
                     FirebaseAuth.instance.signOut();
