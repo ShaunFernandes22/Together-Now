@@ -1,146 +1,113 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:together_now_ipd/Screens/chat/chat_bubble.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:together_now_ipd/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TextInput extends StatefulWidget {
-  const TextInput({Key? key, required this.userId}) : super(key: key);
-  final String userId;
+String apiKey = dotenv.get("GEMINI_API_KEY", fallback: "");
+
+String prompt = Constants().prompt;
+
+class GeminiPage extends StatefulWidget {
+  const GeminiPage({super.key});
 
   @override
-  State<TextInput> createState() => _TextInputState();
+  State<GeminiPage> createState() => _GeminiPageState();
 }
 
-class _TextInputState extends State<TextInput> {
-  // double deviceHeight = Constants().deviceHeight,
-  // deviceWidth = Constants().deviceWidth;
-  double deviceHeight = 896, deviceWidth = 414;
-  final _controller = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  List<String> lst = [];
+class _GeminiPageState extends State<GeminiPage> {
+  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: Text(
-            // AppLocalizations.of(context)!.resolveYourQueries,
-            "Hi",
-            style: TextStyle(
-                fontFamily: "productSansReg",
-                color: Colors.cyan[500],
-                fontWeight: FontWeight.w700),
-          ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(color: Colors.cyan[500]),
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.grey[900]!,
-                  Colors.black,
-                  Colors.grey[900]!,
-                ]),
-          ),
-          child: Form(
-              key: _formKey,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    if (lst.isEmpty)
-                      SizedBox(
-                        height: height * (40 / deviceHeight),
-                      )
-                    else
-                      SizedBox(
-                        height: height * (60 / deviceHeight),
-                      ),
-                    if (lst.isNotEmpty)
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: lst.length,
-                          itemBuilder: (context, index) {
-                            return index % 2 == 0
-                                ? ChatBubble(
-                                    text: lst[index], isCurrentUser: true)
-                                : ChatBubble(
-                                    text: lst[index], isCurrentUser: false);
-                          },
-                        ),
-                      ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: SizedBox(
-                          child: TextFormField(
-                        controller: _controller,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            filled: true,
-                            hintText: "AppLocalizations.of(context)!.enterText",
-                            hintStyle: TextStyle(
-                                fontSize: 17.5,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.cyan[500],
-                                fontFamily: "productSansReg"),
-                            suffix: InkWell(
-                              onTap: () async {
-                                String text = _controller.text.trim();
-                                lst.add(text);
-                                setState(() {});
-                                _controller.clear();
-                                var res =
-                                    await chatWithBot(widget.userId, text);
-                                lst.add(res.toString());
-                                setState(() {});
-                              },
-                              child: Icon(
-                                Icons.send_rounded,
-                                size: 25,
-                                color: Colors.cyan[500],
-                              ),
-                            ),
-                            fillColor: Colors.white),
-                      )),
-                    ),
-                  ])),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.chatbot),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+                child: ListView.builder(
+              itemCount: _chatMessages.length,
+              itemBuilder: (context, index) {
+                final message = _chatMessages[index];
+                return ChatBubble(
+                  text: message['text'],
+                  isCurrentUser: message['isCurrentUser'],
+                );
+              },
+            )),
+            TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: 'Ask me anything...',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: _sendMessage,
+                ),
+              ),
+              onFieldSubmitted: (_) => _sendMessage(),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Future<String> chatWithBot(String? userId, String? query) async {
-    var res = await http.post(
-      Uri.parse(''),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        "user_id": "$userId",
-        "query": "$query",
-        "topic": "Learning",
-        "chat_id": 1
-      }),
-    );
-    debugPrint(res.body);
-    Map<String, dynamic> data = jsonDecode(res.body);
-    if (kDebugMode) {
-      debugPrint(res.body);
-      print(data);
+  Future<void> _sendMessage() async {
+    String text = _controller.text.trim();
+    if (text.isEmpty) return;
+
+    // Add user message to chat list
+    _addMessage(text, isCurrentUser: true);
+
+    // Clear the text field
+    _controller.clear();
+
+    // Call the chatbot API
+    final response = await _callChatbotAPI(text);
+
+    // Add bot response to chat list
+    if (response != null) {
+      _addMessage(response);
     }
-    return data["response"];
+  }
+
+  Future<String?> _callChatbotAPI(String text) async {
+    final msg = prompt + text;
+    final content = Content.text(msg);
+    final response = await model.generateContent([content]);
+    return response.text;
+  }
+
+  final List<Map<String, dynamic>> _chatMessages = [];
+
+  void _addMessage(String text, {bool isCurrentUser = false}) {
+    setState(() {
+      _chatMessages.add({
+        'text': text,
+        'isCurrentUser': isCurrentUser,
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
