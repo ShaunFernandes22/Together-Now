@@ -1,29 +1,47 @@
-// import 'dart:js';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-// import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-// Import any other necessary Firebase packages, such as firebase_auth if needed.
+import 'package:twilio_flutter/twilio_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(() as Widget);
-// }
+String accSID = dotenv.get("ACCOUNT_SID", fallback: "");
+String authToken = dotenv.get("AUTH_TOKEN", fallback: "");
+String twilioNo = dotenv.get("TWILIO_NO", fallback: "");
+String phoneNo = dotenv.get("PHONE_NO", fallback: "");
 
-class Warning extends StatelessWidget {
-  Warning({super.key});
+class Warning extends StatefulWidget {
+  const Warning({super.key});
+
+  @override
+  State<Warning> createState() => _WarningState();
+}
+
+class _WarningState extends State<Warning> {
+  bool isSOSPressed = false;
+  Color backgt = Colors.grey;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Safety App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SafetyPage(),
+    return Scaffold(
+      body: SafeArea(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              backgroundColor: backgt,
+              padding: const EdgeInsets.all(80),
+            ),
+            child: const Text('SOS',
+                style: TextStyle(fontSize: 24, color: Colors.white)),
+            onPressed: () {
+              // Your SOS functionality here
+              showConfirmationDialog(context);
+            },
+          ),
+        ],
+      )),
     );
   }
 
@@ -32,24 +50,24 @@ class Warning extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Confirmation"),
-          content: const Text("Are you sure you want to send an alert?"),
+          title: Text(AppLocalizations.of(context)!.confirmation),
+          content: Text(AppLocalizations.of(context)!.warning_alert),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                setState(() {
+                  backgt = Colors.red;
+                });
                 handleAlert(context);
               },
-              child: const Text("Yes"),
+              child: Text(AppLocalizations.of(context)!.yes),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                // setState(() {
-                //   isSOSPressed = false;
-                // });
               },
-              child: const Text("No"),
+              child: Text(AppLocalizations.of(context)!.no),
             ),
           ],
         );
@@ -57,131 +75,30 @@ class Warning extends StatelessWidget {
     );
   }
 
-  void handleAlert(BuildContext context) {
-    // print("Sending alert to backend");
-    // sendPostRequest(context);
-  }
-
-  // final apiUrl = Uri.parse(
-  //     'ngrok');
-
-  // Future<void> sendPostRequest(BuildContext context) async {
-  //   var response = await http.post(apiUrl,
-  //       headers: {"Content-Type": "application/json"},
-  //       body: jsonEncode({"number": "varun's no"}));
-  //   // print(response.status);
-  // }
-
-  // convert json obj
-  // return {"status": "Message sent successfully", "message_id": message.sid}
-  // (response);
-}
-
-class SafetyPage extends StatefulWidget {
-  const SafetyPage({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _SafetyPageState createState() => _SafetyPageState();
-}
-
-class _SafetyPageState extends State<SafetyPage> {
-  final TextEditingController _phoneController = TextEditingController();
-  bool _isRegistering = false;
-  Color backgt = Colors.grey;
-
-  void registerPhoneNumber() async {
-    setState(() {
-      _isRegistering = true;
-    });
-    // Here you would usually add some validation for the phone number
-    final String phoneNumber = _phoneController.text;
-
-    // Add the phone number to Firebase - example uses Firestore
-    await FirebaseFirestore.instance.collection('phoneNumbers').add({
-      'number': phoneNumber,
-      'timestamp': FieldValue.serverTimestamp(),
-    });
-
-    // Now, you can call your API to send an SMS to the phoneNumber
-    // Replace this print statement with your API call
-    // print('An SMS will be sent to $phoneNumber');
-
-    setState(() {
-      _isRegistering = false;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                backgroundColor: backgt,
-                padding: const EdgeInsets.all(80),
-              ),
-              child: const Text('SOS',
-                  style: TextStyle(fontSize: 24, color: Colors.white)),
-              onPressed: () {
-                // Your SOS functionality here
-                setState(() {
-                  backgt = Colors.red;
-                });
-              },
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.black,
-                backgroundColor: Colors.white,
-              ),
-              child: const Text('Inform Kin'),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: _phoneController,
-                            decoration: const InputDecoration(
-                              labelText: 'Enter phone number',
-                            ),
-                            keyboardType: TextInputType.phone,
-                          ),
-                          const SizedBox(height: 20),
-                          if (_isRegistering)
-                            const CircularProgressIndicator()
-                          else
-                            ElevatedButton(
-                              onPressed: registerPhoneNumber,
-                              child: const Text('Register & Send SMS'),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-            // ... other buttons ...
-          ],
-        ),
-      ),
+  Future<void> handleAlert(BuildContext context) async {
+    final TwilioFlutter twilioFlutter = TwilioFlutter(
+      accountSid: accSID,
+      authToken: authToken,
+      twilioNumber: twilioNo,
     );
-  }
 
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
+    String kinName = "Varun";
+    String locationLandmark =
+        "Dwarkadas J. Sanghvi College of Engineering, Vile Parle West, Mumbai Maharashtra 400056, India";
+        
+    String alertMessage = """
+    Dear $kinName, 
+
+    This is an automated alert from TogetherNow, the app your loved one Ramesh is using. They have pressed the SOS button indicating that they might not be feeling safe.
+    
+    Location: $locationLandmark
+
+    Please reach out to them at your earliest convenience to ensure their safety and well being.
+
+    Thank you,
+    TogetherNow Team
+    """;
+
+    await twilioFlutter.sendSMS(toNumber: phoneNo, messageBody: alertMessage);
   }
 }
