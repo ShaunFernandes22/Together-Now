@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:together_now_ipd/Models/widgets/search_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class Person {
   final String name;
@@ -81,7 +82,7 @@ class _SearchNavigateState extends State<SearchNavigate> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.title),
+        title: widget.title == 'Volunteer' ? Text(AppLocalizations.of(context)!.user) : Text(AppLocalizations.of(context)!.volunteer),
       ),
       body: Column(
         children: [
@@ -92,7 +93,7 @@ class _SearchNavigateState extends State<SearchNavigate> {
               onChanged:
                   _filterSearchResults, // Call the filtering method on text change
               decoration: InputDecoration(
-                labelText: 'Search by name or task description',
+                labelText: AppLocalizations.of(context)!.search_by_name,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),

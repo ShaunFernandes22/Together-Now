@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:together_now_ipd/Auth/login.dart';
 import 'package:together_now_ipd/Models/utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -92,9 +93,9 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   FadeInUp(
                       duration: const Duration(milliseconds: 1000),
-                      child: const Text(
-                        "Sign up",
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.signup,
+                        style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       )),
                   const SizedBox(
@@ -102,9 +103,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   FadeInUp(
                       duration: const Duration(milliseconds: 1200),
-                      child: const Text(
-                        "Create an account, It's free",
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.create_account,
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 104, 103, 103),
                         ),
@@ -157,9 +158,9 @@ class _SignupPageState extends State<SignupPage> {
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
-                      child: const Text(
-                        "Sign up",
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.signup,
+                        style: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
                     ),
@@ -169,7 +170,7 @@ class _SignupPageState extends State<SignupPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text("Already have an account?"),
+                      Text(AppLocalizations.of(context)!.have_acc),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -177,8 +178,8 @@ class _SignupPageState extends State<SignupPage> {
                               MaterialPageRoute(
                                   builder: (context) => const LoginPage()));
                         },
-                        child: const Text(" Login",
-                            style: TextStyle(
+                        child: Text("  ${AppLocalizations.of(context)!.login}",
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:together_now_ipd/Models/user_state.dart';
 import 'package:together_now_ipd/Screens/login_signup/create_account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -36,19 +37,19 @@ class _GetStartedState extends State<GetStarted> {
                 height: MediaQuery.of(context).size.height * 0.6,
                 scale: 1.5,
               ),
-              const ChoiceButton(
+              ChoiceButton(
                 choice: 'volunteer',
                 index: 0,
-                buttonText: 'People who want to help',
+                buttonText: AppLocalizations.of(context)!.helper_btn,
                 horizontalPadding: 11.0,
               ),
               const SizedBox(
                 height: 20,
               ),
-              const ChoiceButton(
+              ChoiceButton(
                 choice: 'seeker',
                 index: 1,
-                buttonText: 'People who need help',
+                buttonText: AppLocalizations.of(context)!.seeker_btn,
               ),
               const SizedBox(
                 height: 60,
@@ -108,7 +109,7 @@ class ChoiceButton extends StatelessWidget {
 }
 
 class StartedButton extends StatefulWidget {
-  const StartedButton({Key? key}) : super(key: key);
+  const StartedButton({super.key});
 
   @override
   _StartedButtonState createState() => _StartedButtonState();
@@ -164,7 +165,7 @@ class _StartedButtonState extends State<StartedButton> {
               side: const BorderSide(color: Palette.startBorderColor, width: 2),
               borderRadius: BorderRadius.circular(10))),
       child: Text(
-        'Get Started',
+        AppLocalizations.of(context)!.get_started,
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 22,

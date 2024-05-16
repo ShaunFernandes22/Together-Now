@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:together_now_ipd/Auth/signup.dart';
 import 'package:together_now_ipd/homepage.dart';
 import 'package:together_now_ipd/Models/utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,8 +42,8 @@ class _LoginPageState extends State<LoginPage> {
         if (userCredential.user != null) {
           if (context.mounted) {
             Navigator.popUntil(context, (route) => route.isFirst);
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => const HomePage()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
           }
         }
       } on FirebaseException catch (ex) {
@@ -124,9 +125,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         FadeInUp(
                             duration: const Duration(milliseconds: 1000),
-                            child: const Text(
-                              "Login",
-                              style: TextStyle(
+                            child: Text(
+                              AppLocalizations.of(context)!.login,
+                              style: const TextStyle(
                                   fontSize: 30, fontWeight: FontWeight.bold),
                             )),
                         const SizedBox(
@@ -135,9 +136,9 @@ class _LoginPageState extends State<LoginPage> {
                         FadeInUp(
                             duration: const Duration(milliseconds: 1200),
                             child: Text(
-                              "Login to your account",
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.grey[700]),
+                              AppLocalizations.of(context)!.login_to_ur_acc,
+                              style: const TextStyle(
+                                  fontSize: 15, color: Colors.grey),
                             )),
                       ],
                     ),
@@ -182,9 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50)),
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
+                              child: Text(
+                                AppLocalizations.of(context)!.login,
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 18),
                               ),
                             ),
@@ -195,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            const Text("Don't have an account?"),
+                            Text(AppLocalizations.of(context)!.dont_have_acc),
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -204,9 +205,9 @@ class _LoginPageState extends State<LoginPage> {
                                       builder: (context) => const SignupPage(),
                                     ));
                               },
-                              child: const Text(
-                                " Sign up",
-                                style: TextStyle(
+                              child: Text(
+                                "  ${AppLocalizations.of(context)!.signup}",
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 18),
                               ),
                             ),

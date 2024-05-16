@@ -64,13 +64,7 @@ class AppointmentCard extends StatelessWidget {
               SizedBox(height: 10),
               Center(
                 child: Text(
-                  '$day, $date',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-              Center(
-                child: Text(
-                  time,
+                  '$day, $date   $time',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),

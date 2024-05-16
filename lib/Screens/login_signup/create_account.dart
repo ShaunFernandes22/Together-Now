@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:together_now_ipd/homepage.dart';
 import 'package:together_now_ipd/Auth/login.dart';
 import 'package:together_now_ipd/Auth/signup.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateAccount extends StatefulWidget {
   // const CreateAccount({super.key});
@@ -24,9 +25,11 @@ class _CreateAccountState extends State<CreateAccount> {
 
     // Determine the welcome message based on the value of choice
     if (choice == 'volunteer') {
-      welcomeMessage = 'Welcome volunteers';
+      // welcomeMessage = 'Welcome volunteers';
+      welcomeMessage = AppLocalizations.of(context)!.welcome_volunteers;
     } else if (choice == 'seeker') {
-      welcomeMessage = 'Welcome users.';
+      // welcomeMessage = 'Welcome users.';
+      welcomeMessage = AppLocalizations.of(context)!.welcome_users;
     }
     print(welcomeMessage);
     return Scaffold(
@@ -48,8 +51,9 @@ class _CreateAccountState extends State<CreateAccount> {
                         child: const Text(
                           "Together Now",
                           style: TextStyle(
+                              fontFamily: "productSansReg",
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w700,
                               fontSize: 30),
                         )),
                     const SizedBox(
@@ -102,9 +106,9 @@ class _CreateAccountState extends State<CreateAccount> {
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(color: Colors.black),
                               borderRadius: BorderRadius.circular(50)),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
+                          child: Text(
+                            AppLocalizations.of(context)!.login,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 18),
                           ),
                         )),
@@ -137,9 +141,9 @@ class _CreateAccountState extends State<CreateAccount> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50)),
-                            child: const Text(
-                              "Sign up",
-                              style: TextStyle(
+                            child: Text(
+                              AppLocalizations.of(context)!.signup,
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 18),
                             ),
                           ),

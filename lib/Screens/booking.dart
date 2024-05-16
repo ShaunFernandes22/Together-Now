@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WeeklyDatePicker extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 20.0),
+      padding: const EdgeInsets.only(top: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: _weekDates
@@ -68,25 +69,25 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
                           : 0.0,
                     ),
                   ),
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
                       Text(
                         DateFormat('MMM').format(date),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Text(
                         DateFormat('dd').format(date),
-                        style: TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Text(
                         DateFormat('EEE').format(date),
-                        style: TextStyle(fontSize: 14.0),
+                        style: const TextStyle(fontSize: 14.0),
                       ),
                     ],
                   ),
@@ -125,12 +126,12 @@ class _BookingPageState extends State<BookingPage> {
           SliverToBoxAdapter(
             child: Column(
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 60.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 60.0),
                   child: Center(
                     child: Text(
-                      'Select Consultation Date',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.select_consult_date,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -138,12 +139,12 @@ class _BookingPageState extends State<BookingPage> {
                   ),
                 ),
                 _weeklyDatePicker(),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
                   child: Center(
                     child: Text(
-                      'Select Consultation Time',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.select_consult_time,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -153,45 +154,6 @@ class _BookingPageState extends State<BookingPage> {
               ],
             ),
           ),
-          // SliverGrid(
-          //   delegate: SliverChildBuilderDelegate(
-          //     (context, index) {
-          //       return InkWell(
-          //         splashColor: Colors.transparent,
-          //         onTap: () {
-          //           setState(() {
-          //             _currentIndex = index;
-          //           });
-          //         },
-          //         child: Container(
-          //           margin: const EdgeInsets.all(5),
-          //           decoration: BoxDecoration(
-          //             border: Border.all(
-          //               color: _currentIndex == index
-          //                   ? Colors.white
-          //                   : Colors.black,
-          //             ),
-          //             borderRadius: BorderRadius.circular(15),
-          //             color: _currentIndex == index ? Colors.blue : null,
-          //           ),
-          //           alignment: Alignment.center,
-          //           child: Text(
-          //             '${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}',
-          //             style: TextStyle(
-          //               fontWeight: FontWeight.bold,
-          //               color: _currentIndex == index ? Colors.white : null,
-          //             ),
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //     childCount: 8,
-          //   ),
-          //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          //     crossAxisCount: 4,
-          //     childAspectRatio: 1.5,
-          //   ),
-          // ),
           _timeSlots(),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:together_now_ipd/Models/widgets/app_bar.dart';
 import 'package:together_now_ipd/Models/schedule_status.dart';
 import 'package:together_now_ipd/Screens/appointments/schedule_card.dart';
 import 'package:together_now_ipd/Screens/booking.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -33,8 +34,8 @@ class _HomeState extends State<Home> {
               //     // },
               //     ),
               Text(
-                "Your Appointments",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                AppLocalizations.of(context)!.your_appointments,
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
               AppointmentCard(
                   doctorName: "Jon Snow",
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
                   day: "Wed",
                   date: "26 Mar",
                   time: "5:00 pm",
-                  color: Color.fromARGB(255, 160, 208, 233)!,
+                  color: Color.fromARGB(255, 77, 162, 208)!,
                   onCancelPressed: () {},
                   onCompletePressed: () {}),
               Center(
@@ -61,9 +62,10 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
-                  child: const Text(
-                    'Book an appointment',
-                    style: TextStyle(fontSize: 20),
+                  child: Text(
+                    AppLocalizations.of(context)!.book_appointment,
+                    style: const TextStyle(
+                      fontSize: 20),
                   ),
                 ),
               ),

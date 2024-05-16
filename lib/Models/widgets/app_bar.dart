@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:together_now_ipd/Models/my_notifications.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:together_now_ipd/Screens/profile.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key});
@@ -33,8 +35,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
             height: 120,
           ),
           GestureDetector(
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const Profile()))
+            },
             child: const CircleAvatar(
-              child: Icon(Icons.account_circle, size: 40, color: Colors.white),
+              child: Icon(Icons.account_circle, size: 40, color: Color.fromARGB(255, 92, 108, 196)),
             ),
           ),
         ],
@@ -49,7 +54,7 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.grey,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -72,9 +77,9 @@ class NavDrawer extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   leading: const Icon(Icons.notifications),
-                  title: const Text(
-                    'Notifications',
-                    style: TextStyle(color: Colors.white),
+                  title: Text(
+                    AppLocalizations.of(context)!.notifications,
+                    style: const TextStyle(color: Colors.white),
                   ),
                   onTap: () {
                     // Handle notifications option
@@ -86,9 +91,9 @@ class NavDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
-                  title: const Text(
-                    'Sign Out',
-                    style: TextStyle(color: Colors.white),
+                  title: Text(
+                    AppLocalizations.of(context)!.signout,
+                    style: const TextStyle(color: Colors.white),
                   ),
                   onTap: () {
                     // Handle sign out option
