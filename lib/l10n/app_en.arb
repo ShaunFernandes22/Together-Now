@@ -1,0 +1,194 @@
+{
+    "language": "English",
+    "@language": {
+        "description": "The current language"
+    },
+    "skip": "Skip",
+    "@skip": {
+        "description": "For skipping"
+    },
+    "next": "Next",
+    "@next": {
+        "description": "For moving to the next step"
+    },
+    "yes": "Yes",
+    "@yes": {
+        "description": "yes"
+    },
+    "no": "No",
+    "@no": {
+        "description": "no"
+    },
+    "onboard1_text": "Together Now is more than an app; it's a celebration of meaningful connections.",
+    "@onboard1_text": {
+        "description": "First onboarding text"
+    },
+    "onboard2_text": "We believe in the power of shared experiences, the laughter that bind us, and the strength found in knowing you're never alone.",
+    "@onboard2_text": {
+        "description": "Second onboarding text"
+    },
+    "onboard3_text": "We cherish your moments, amplify your stories, and nurture the unity of our vast family.",
+    "@onboard3_text": {
+        "description": "Third onboarding text"
+    },
+    "helper_btn": "People who want to help",
+    "@helper_btn": {
+        "description": "Button for helpers"
+    },
+    "seeker_btn": "People who need help",
+    "@seeker_btn": {
+        "description": "Button for seekers"
+    },
+    "get_started": "Get Started",
+    "@get_started": {
+        "description": "For get started button"
+    },
+    "create_account": "Create Account",
+    "@create_account": {
+        "description": "For create account button"
+    },
+    "login": "Login",
+    "@login": {
+        "description": "For login button"
+    },
+    "welcome_users": "Welcome Users",
+    "@welcome_users": {
+        "description": "Welcome message for users"
+    },
+    "login_to_ur_acc": "Login to Your Account",
+    "@login_to_ur_acc": {
+        "description": "Login message"
+    },
+    "email": "Email",
+    "@email": {
+        "description": "For email input field"
+    },
+    "password": "Password",
+    "@password": {
+        "description": "For password input field"
+    },
+    "have_acc":"Already have an account?",
+    "@have_acc":{
+        "description": "account existing question"
+    },
+    "dont_have_acc": "Don't have an account?",
+    "@dont_have_acc": {
+        "description": "For signup message"
+    },
+    "signup": "Sign Up",
+    "@signup": {
+        "description": "For signup button"
+    },
+    "your_appointments": "Your Appointments",
+    "@your_appointments": {
+        "description": "Title for user's appointments section"
+    },
+    "book_appointment": "Book Appointment",
+    "@book_appointment": {
+        "description": "Button for booking appointment"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+        "description": "For cancel button"
+    },
+    "completed": "Completed",
+    "@completed": {
+        "description": "Status for completed appointments"
+    },
+    "home": "Home",
+    "@home": {
+        "description": "For home navigation"
+    },
+    "search": "Search",
+    "@search": {
+        "description": "For search navigation"
+    },
+    "warning": "Warning",
+    "@warning": {
+        "description": "For warning message"
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": "For profile navigation"
+    },
+    "notifications": "Notifications",
+    "@notifications": {
+        "description": "For notifications navigation"
+    },
+    "signout": "Sign Out",
+    "@signout": {
+        "description": "For signout option"
+    },
+    "logout": "Logout",
+    "@logout": {
+        "description": "For logout option"
+    },
+    "select_consult_date": "Select Consultation Date",
+    "@select_consult_date": {
+        "description": "For selecting consultation date"
+    },
+    "select_consult_time": "Select Consultation Time",
+    "@select_consult_time": {
+        "description": "For selecting consultation time"
+    },
+    "chatbot": "Chatbot",
+    "@chatbot": {
+        "description": "For chatbot option"
+    },
+    "ask_me_anything": "Ask Me Anything",
+    "@ask_me_anything": {
+        "description": "For asking questions to the chatbot"
+    },
+    "choose_a_language": "Choose a Language",
+    "@choose_a_language" : {
+        "description": "For selecting a language"
+    },
+    "user": "User",
+    "@user": {
+        "description": "User"
+    },
+    "volunteer": "Volunteer",
+    "@volunteer": {
+        "description": "Volunteer"
+    },
+    "proceed": "Proceed",
+    "@proceed": {
+        "description": "Proceed language button"
+    },
+    "welcome_volunteers": "Welcome Volunteers",
+    "@welcome_volunteers": {
+        "description": "Welcome message"
+    },
+    "confirmation": "Confirmation",
+    "@confirmation": {
+        "description" : "Confirmation"
+    },
+    "warning_alert": "Are you sure you want to send an alert to your kin?",
+    "@warning_alert": {
+        "description": "warning alert message"
+    },
+    "options": "Options",
+    "@options": {
+        "description": "Options"
+    },
+    "edit_profile": "Edit profile",
+    "@edit_profile": {
+        "description" : "edit profile"
+    },
+    "security": "Security",
+    "@security": {
+        "description": "security"
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "settings"
+    },
+    "search_by_name": "Search by name or task description",
+    "@search_by_name": {
+        "description": "Searchbar label"
+    },
+    "history": "History",
+    "@history": {
+        "description": "history text"
+    }
+}
