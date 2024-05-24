@@ -32,14 +32,16 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        toolbarHeight: 30,
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 60.0),
+                  padding: const EdgeInsets.only(top: 30.0),
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.select_consult_date,

@@ -56,18 +56,18 @@ class _WarningState extends State<Warning> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                setState(() {
-                  backgt = Colors.red;
-                });
-                handleAlert(context);
               },
-              child: Text(AppLocalizations.of(context)!.yes),
+              child: Text(AppLocalizations.of(context)!.no),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                setState(() {
+                  backgt = Colors.red;
+                });
+                // handleAlert(context);
               },
-              child: Text(AppLocalizations.of(context)!.no),
+              child: Text(AppLocalizations.of(context)!.yes),
             ),
           ],
         );

@@ -30,7 +30,8 @@ class _GeminiPageState extends State<GeminiPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.chatbot),
+        // title: Text(AppLocalizations.of(context)!.chatbot),
+        title: Text("Resolve your queries"),
         centerTitle: true,
       ),
       body: Padding(
