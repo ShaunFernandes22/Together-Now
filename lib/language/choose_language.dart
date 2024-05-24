@@ -5,7 +5,7 @@ import 'package:together_now_ipd/Screens/introduction_screen.dart';
 import 'package:together_now_ipd/constants.dart';
 import 'package:together_now_ipd/main.dart';
 
-// String _languageCode = 'en';
+String _languageCode = 'en';
 
 class SelectLanguageDropdown extends StatefulWidget {
   const SelectLanguageDropdown({super.key});
@@ -19,17 +19,17 @@ class _SelectLanguageDropdownState extends State<SelectLanguageDropdown> {
   @override
   void initState() {
     super.initState();
-    // _languageCode = getLang().toString();
+    _languageCode = getLang().toString();
   }
 
-  // Future<String> getLang() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final String languageCode = prefs.getString('languageCode') ?? 'en';
-  //   return languageCode;
-  // }
+  Future<String> getLang() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String languageCode = prefs.getString('languageCode') ?? 'en';
+    return languageCode;
+  }
 
-  // String selectedVal = _languageCode;
-  String selectedVal = 'en';
+  String selectedVal = _languageCode;
+  // String selectedVal = 'en';
   double deviceHeight = Constants().deviceHeight,
       deviceWidth = Constants().deviceWidth;
   @override

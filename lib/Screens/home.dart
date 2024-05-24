@@ -37,16 +37,7 @@ class _HomeState extends State<Home> {
                 AppLocalizations.of(context)!.your_appointments,
                 style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
-              AppointmentCard(
-                  doctorName: "Jon Snow",
-                  category: "Cooking",
-                  doctorProfile: 'assets/Person1.png',
-                  day: "Wed",
-                  date: "26 Mar",
-                  time: "5:00 pm",
-                  color: Color.fromARGB(255, 77, 162, 208)!,
-                  onCancelPressed: () {},
-                  onCompletePressed: () {}),
+              AppointmentCard(),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -64,7 +55,7 @@ class _HomeState extends State<Home> {
                   ),
                   child: Text(
                     AppLocalizations.of(context)!.book_appointment,
-                    style: const TextStyle(
+                    style: const TextStyle( color: Colors.white,
                       fontSize: 20),
                   ),
                 ),
