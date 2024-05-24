@@ -75,7 +75,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
             // Title row (unchanged)
             Row(
               children: [
-                Text('ELDER\'S DETAILS',
+                Text('VOLUNTEER\'S DETAILS',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     SizedBox(width: 10,),
                 Icon(Icons.person)
